@@ -5,6 +5,11 @@
 
 .media-frame.mode-edit .media-toolbar-secondary {
 	align-items: center;
+	max-width: none;
+}
+
+.media-frame.mode-edit .media-toolbar-secondary .view-switch {
+	flex: 1 0 auto;
 }
 
 .media-frame.mode-grid .spinner {
