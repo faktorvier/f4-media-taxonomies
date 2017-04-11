@@ -71,10 +71,10 @@ class Hooks {
 	 * @static
 	 */
 	public static function load_properties() {
-		global $pagenow, $mode;
+		global $pagenow, $mode, $wp_scripts;
 
 		Property::$has_bulk_action = $pagenow === 'upload.php' && $mode !== 'grid';
-		Property::$has_filter = wp_script_is('media-views') || ($pagenow === 'upload.php' && $mode === 'grid');
+		Property::$has_filter = wp_script_is('media-views') || wp_script_is('acf-input') || apply_filters('F4/MT/Core/has_filter', false) || ($pagenow === 'upload.php' && $mode === 'grid');
 		Property::$has_assignment = Property::$has_filter;
 
 		do_action('F4/MT/Core/load_properties');
@@ -197,7 +197,7 @@ class Hooks {
 		}
 
 		// Enqueue styles
-		if(Property::$has_bulk_action || Property::$has_filter) {
+		if(Property::$has_bulk_action || Property::$has_filter || Property::$has_assignment) {
 			wp_enqueue_style(
 				'f4-media-taxonomies-styles',
 				F4_MT_URL . 'Core/Assets/css/styles.css'
