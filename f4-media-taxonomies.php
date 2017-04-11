@@ -2,14 +2,32 @@
 
 /*
 Plugin Name: F4 Media Taxonomies
-Plugin URI: https://faktorvier.ch
-Description: Add filters and bulk actions for attachments categories, tags and custom taxonomies.
+Plugin URI: https://github.com/faktorvier/f4-media-taxonomies
+Description: Add filters and bulk actions for attachment categories, tags and custom taxonomies.
 Version: 1.0.0
 Author: FAKTOR VIER
 Author URI: https://faktorvier.ch
 License: GPLv2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: f4-media-taxonomies
+Domain Path: /Core/Lang
+
+F4 Media Taxonomies is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+any later version.
+
+F4 Media Taxonomies is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with F4 Media Taxonomies. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
+
 */
+
+if(!defined('ABSPATH')) exit; // don't access directly
 
 define('F4_MT_SLUG', 'f4-media-taxonomies');
 define('F4_MT_TD', F4_MT_SLUG);

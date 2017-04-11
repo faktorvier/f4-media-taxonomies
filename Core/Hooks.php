@@ -3,9 +3,9 @@
 namespace F4\MT\Core;
 
 /**
- * Core Hooks
+ * F4 Media Taxonomies Core Hooks
  *
- * All the WordPress hooks for the Core module
+ * All the WordPress hooks for the core module
  *
  * @since 1.0.0
  * @package	F4\MT\Core
@@ -24,9 +24,6 @@ class Hooks {
 		add_action('init', __NAMESPACE__ . '\\Hooks::load_taxonomies', 99);
 		add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\Hooks::load_properties', 50);
 		add_action('F4/MT/Core/set_constants', __NAMESPACE__ . '\\Hooks::set_default_constants', 98);
-
-		add_filter('pre_set_site_transient_update_plugins', __NAMESPACE__ . '\\Hooks::update_check');
-		add_filter('plugins_api', __NAMESPACE__ . '\\Hooks::inject_plugin_infos', 20, 3);
 
 		add_action('admin_head', __NAMESPACE__ . '\\Hooks::add_custom_js');
 		add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\Hooks::admin_enqueue_scripts', 60);
@@ -50,14 +47,20 @@ class Hooks {
 	}
 
 	/**
-	 * Load properties
+	 * Load and filter all available attachment taxonomies
 	 *
 	 * @since 1.0.0
 	 * @access public
 	 * @static
+	 * @return array $attachment_taxonomies An array with all available attachment taxonomies
 	 */
 	public static function load_taxonomies() {
-		Property::$taxonomies = get_taxonomies_for_attachments('objects');
+		$attachment_taxonomies = get_taxonomies_for_attachments('objects');
+		$attachment_taxonomies = apply_filters('F4/MT/Core/load_taxonomies', $attachment_taxonomies);
+
+		Property::$taxonomies = $attachment_taxonomies;
+
+		return $attachment_taxonomies;
 	}
 
 	/**
@@ -78,7 +81,7 @@ class Hooks {
 	}
 
 	/**
-	 * Sets the module default constants
+	 * Sets the default constants
 	 *
 	 * @since 1.0.0
 	 * @access public
@@ -101,58 +104,11 @@ class Hooks {
 	 */
 	public static function load_textdomain() {
 		$locale = apply_filters('plugin_locale', get_locale(), F4_MT_TD);
-
 		load_plugin_textdomain('f4-media-taxonomies', false, plugin_basename(F4_MT_PATH . 'Core' . DS . 'Lang') . DS);
 	}
 
 	/**
-	 * Check for updates
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 * @param string $transient The transient object
-	 * @static
-	 */
-	public static function update_check($transient) {
-		$plugin_infos = Helpers::get_remote_repository_info();
-
-		if(empty($plugin_infos['version']) || version_compare($plugin_infos['version'], Helpers::get_plugin_info('Version'), '<=')) {
-			return $transient;
-		}
-
-		$plugin_object = new \stdClass();
-		$plugin_object->slug = $plugin_infos['slug'];
-		$plugin_object->plugin = F4_MT_BASENAME;
-		$plugin_object->new_version = $plugin_infos['version'];
-		$plugin_object->url = $plugin_infos['homepage'];
-		$plugin_object->package = $plugin_infos['package'];
-		$plugin_object->tested = $plugin_infos['tested'];
-
-		$transient->response[F4_MT_BASENAME] = $plugin_object;
-
-		return $transient;
-	}
-
-	/**
-	 * Inject plugin infos
-	 *
-	 * @since 1.0.0
-	 * @access public
-	 * @static
-	 */
-	public static function inject_plugin_infos($result, $action = null, $args = null) {
-		if(isset($args->slug) && $args->slug == F4_MT_SLUG) {
-			$plugin_infos = Helpers::get_remote_repository_info();
-			$plugin_infos_obj = (object)$plugin_infos;
-
-			return $plugin_infos_obj;
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Add custom js
+	 * Add custom js into admin head
 	 *
 	 * @since 1.0.0
 	 * @access public
@@ -175,12 +131,13 @@ class Hooks {
 		foreach(Property::$taxonomies as $media_taxonomy) {
 			$media_taxonomy_data['taxonomies'][$media_taxonomy->name] = array(
 				'slug' => $media_taxonomy->name,
-				'terms' => Helpers::get_terms_hierarchical($media_taxonomy->name, 0, array('hide_empty' => false)),
+				'terms' => Helpers::get_terms_hierarchical($media_taxonomy->name, array('hide_empty' => false)),
 				'query_var' => $media_taxonomy->query_var,
 				'labels' => array(
 					'all_items' => $media_taxonomy->labels->all_items,
 					'singular' => $media_taxonomy->labels->singular_name,
 					'plural' => $media_taxonomy->labels->name,
+					'bulk_title' => str_replace('%taxonomy%', $media_taxonomy->labels->name, __('Assign %taxonomy%', 'f4-media-taxonomies')),
 					'search' => $media_taxonomy->labels->search_items,
 					'add' => $media_taxonomy->labels->add_new_item
 				)
@@ -317,7 +274,7 @@ class Hooks {
 	}
 
 	/**
-	 * Show bulk action notice
+	 * Show bulk action notice after complete
 	 *
 	 * @since 1.0.0
 	 * @access public
@@ -337,10 +294,13 @@ class Hooks {
 	 * @since 1.0.0
 	 * @access public
 	 * @static
+	 * @param array $fields An array with all fields to edit
+	 * @param object $post An object for the current post
+	 * @return array $fields An array with all fields to edit
 	 */
 	public static function attachment_fields_to_edit($fields, $post) {
 		foreach(Property::$taxonomies as $media_taxonomy) {
-			$terms = Helpers::get_terms_hierarchical($media_taxonomy->name, 0, array('hide_empty' => false));
+			$terms = Helpers::get_terms_hierarchical($media_taxonomy->name, array('hide_empty' => false));
 			$terms_slugs = array();
 
 			foreach($terms as $term) {
@@ -396,7 +356,7 @@ class Hooks {
 		if(!is_wp_error($new_term_obj)) {
 			wp_send_json(array(
 				'new_term' => $new_term_obj,
-				'all_terms' => Helpers::get_terms_hierarchical($_POST['taxonomy'], 0, array('hide_empty' => false))
+				'all_terms' => Helpers::get_terms_hierarchical($_POST['taxonomy'], array('hide_empty' => false))
 			));
 		}
 

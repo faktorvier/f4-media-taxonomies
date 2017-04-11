@@ -9,7 +9,7 @@
 	if($bulk.length) {
 		for(var mediaTaxonomyName in f4MediaTaxonomy.taxonomies) {
 			var mediaTaxonomy = f4MediaTaxonomy.taxonomies[mediaTaxonomyName];
-			var $taxonomy = $('<optgroup label="' + mediaTaxonomy.labels.plural + '"></optgroup');
+			var $taxonomy = $('<optgroup label="' + mediaTaxonomy.labels.bulk_title + '"></optgroup');
 
 			mediaTaxonomy.terms.forEach(function(mediaTerm) {
 				var $term = $($term);
