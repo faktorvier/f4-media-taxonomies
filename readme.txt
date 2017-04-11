@@ -1,32 +1,102 @@
 === F4 Media Taxonomies ===
 Contributors: faktorvier
 Donate link: https://faktorvier.ch/
-Tags: media, attachments, library, filter, bulk action, categories, tags, taxonomies, custom taxonomies, category, tag, taxonomy, custom taxonomy, attachment
-Requires at least: 4.0.0
+Tags: media, attachments, library, filter, bulk action, categories, tags, taxonomies, custom taxonomies, attachment, category, tag, taxonomy, custom taxonomy
+Requires at least: 4.5.0
 Tested up to: 4.7.3
 Stable tag: 1.0.0
-License: GPLv2 or later
+License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Add filters and bulk actions for attachment categories, tags and custom taxonomies.
 
 == Description ==
 
-??????????
+F4 Media Taxonomies provides the ability to filter the media library by categories, tags and/or custom taxonomies.
+You can use the built-in taxonomies (category or post_tag) or any custom taxonomy.
+
+If a taxonomy is enabled for attachments, you can assign as many of their terms to an attachment as you need.
+You can assign them directly in the media library or in every media-selector overlay.
+There is also a nifty bulk function in the media library, with allows you to assign a single term to multiple attachments at once.
+
+Attachments can then be filtered by these terms. The filters are available in the media library and in every media-selector overlay.
+
+Different than other similar plugins, **F4 Media Taxomies is 100% free!**
+
+== Usage ==
+
+See FAQ for a guide how to enable categories, tags and custom taxonomies.
+
+= Features overview =
+* Use any taxonomy (built-in or custom)
+* Assign one or more terms to an attachment in media library/overlay
+* Bulk assign terms to multiple attachments at once in media library
+* Filter attachments by terms in media library/overlay
+* Easy to use
+* Lightweight and optimized
+* 100% free!
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/f4-media-taxonomies` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/f4-media-taxonomies` directory, or install the plugin through the WordPress plugins screen directly
 1. Activate the plugin through the 'Plugins' screen in WordPress
-1. All taxonomies that are assigned to the attachment post-type are now available for filters and bulk actions!
+1. See FAQ for a guide how to enable categories, tags and custom taxonomies
+1. All taxonomies that are assigned to the attachment post-type are automatically enabled
 
 == Frequently Asked Questions ==
 
-?????????
+= How to enable categories =
 
-== Screenshots ==
+The built-in taxonomy `category` can be enabled with this snippet. Just put it into your `functions.php`:
 
-??????????
+```
+add_action('init', function() {
+	register_taxonomy_for_object_type('category', 'attachment');
+});
+```
+
+= How to enable tags =
+
+The built-in taxonomy `post_tag` can be enabled with this snippet. Just put it into your `functions.php`:
+
+```
+add_action('init', function() {
+	register_taxonomy_for_object_type('post_tag', 'attachment');
+});
+```
+
+= How to enable custom taxonomies =
+
+There are two ways to enable custom taxonomies for attachments:
+
+**New taxonomy:**
+
+If the taxonomy does not exist yet and you want to create a new one, you have to set the object_type in the `register_taxonomy()` function to `attachment` ([see WordPress codex](https://codex.wordpress.org/Function_Reference/register_taxonomy#Parameters)).
+
+```
+add_action('init', function() {
+	register_taxonomy(
+		'media-category',
+		'attachment',
+		$args
+	);
+});
+```
+
+**Existing taxonomy:**
+
+If the taxonomy is already registered, you can assign it with this snippet. Just put it into your `functions.php` and change `media-category` to your taxonomy:
+
+```
+add_action('init', function() {
+	register_taxonomy_for_object_type('media-category', 'attachment');
+});
+```
+
+= Is it really free? =
+
+Yes, absolutely!
+
 
 == Changelog ==
 
