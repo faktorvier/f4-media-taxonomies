@@ -93,10 +93,13 @@ add_action('init', function() {
 });
 ```
 
+= Can I enable taxonomies directly in the backend? =
+
+No. We simply use the taxonomies that are registered in the code. Maybe in the future, but we want to keep this plugin as lightweight and simple as possible.
+
 = Is it really free? =
 
 Yes, absolutely!
-
 
 == Changelog ==
 
