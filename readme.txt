@@ -3,8 +3,8 @@ Contributors: faktorvier
 Donate link: https://faktorvier.ch/
 Tags: media, attachments, library, filter, bulk action, categories, tags, taxonomies, custom taxonomies, attachment, category, tag, taxonomy, custom taxonomy
 Requires at least: 4.5.0
-Tested up to: 4.7.3
-Stable tag: 1.0.0
+Tested up to: 4.8
+Stable tag: 1.0.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +23,7 @@ Attachments can then be filtered by these terms. The filters are available in th
 
 Different than other similar plugins, **F4 Media Taxonomies is 100% free!**
 
-== Usage ==
+= Usage =
 
 See FAQ for a guide how to enable categories, tags and custom taxonomies.
 
@@ -50,21 +50,17 @@ See FAQ for a guide how to enable categories, tags and custom taxonomies.
 
 The built-in taxonomy `category` can be enabled with this snippet. Just put it into your `functions.php`:
 
-```
-add_action('init', function() {
-	register_taxonomy_for_object_type('category', 'attachment');
-});
-```
+	add_action('init', function() {
+		register_taxonomy_for_object_type('category', 'attachment');
+	});
 
 = How to enable tags =
 
 The built-in taxonomy `post_tag` can be enabled with this snippet. Just put it into your `functions.php`:
 
-```
-add_action('init', function() {
-	register_taxonomy_for_object_type('post_tag', 'attachment');
-});
-```
+	add_action('init', function() {
+		register_taxonomy_for_object_type('post_tag', 'attachment');
+	});
 
 = How to enable custom taxonomies =
 
@@ -74,35 +70,29 @@ There are two ways to enable custom taxonomies for attachments:
 
 If the taxonomy does not exist yet and you want to create a new one, you have to set the object_type in the `register_taxonomy()` function to `attachment` ([see WordPress codex](https://codex.wordpress.org/Function_Reference/register_taxonomy#Parameters)).
 
-```
-add_action('init', function() {
-	register_taxonomy(
-		'media-category',
-		'attachment'
-	);
-});
-```
+	add_action('init', function() {
+		register_taxonomy(
+			'media-category',
+			'attachment'
+		);
+	});
 
 **Existing taxonomy:**
 
 If the taxonomy is already registered, you can assign it with this snippet. Just put it into your `functions.php` and change `media-category` to your taxonomy:
 
-```
-add_action('init', function() {
-	register_taxonomy_for_object_type('media-category', 'attachment');
-});
-```
+	add_action('init', function() {
+		register_taxonomy_for_object_type('media-category', 'attachment');
+	});
 
 = The filters do not appear in the media overlay =
 
 For a better performance, we only include the scripts and files when they are needed. Some plugins can cause a problem with this functionality.
 For this case we offer a hook, which allows you to enable the filter for special conditions. If this hook returns `true`, the filter is enabled for the current site.
 
-```
-add_filter('F4/MT/Core/has_filter', function() {
-	return true;
-});
-```
+	add_filter('F4/MT/Core/has_filter', function() {
+		return true;
+	});
 
 = Can I enable taxonomies directly in the backend? =
 
@@ -112,7 +102,18 @@ No. We simply use the taxonomies that are registered in the code. Maybe in the f
 
 Yes, absolutely!
 
+== Screenshots ==
+
+1. Filter by taxonomies in media library list
+2. Filter by taxonomies in media library grid
+3. Assign one or more taxonomies to an attachment
+4. Hierarchical dropdown menu for taxonomies assignment
+5. Filter by taxonomies in media insert overlay
+
 == Changelog ==
+
+= 1.0.1 =
+* Version upgrade for correct repository infos
 
 = 1.0.0 =
 * Initial stable release
