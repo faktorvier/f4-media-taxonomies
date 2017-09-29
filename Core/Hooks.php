@@ -55,8 +55,16 @@ class Hooks {
 	 * @return array $attachment_taxonomies An array with all available attachment taxonomies
 	 */
 	public static function load_taxonomies() {
-		$attachment_taxonomies = get_taxonomies_for_attachments('objects');
-		$attachment_taxonomies = apply_filters('F4/MT/Core/load_taxonomies', $attachment_taxonomies);
+		$attachment_taxonomies_raw = get_taxonomies_for_attachments('objects');
+		$attachment_taxonomies_raw = apply_filters('F4/MT/Core/load_taxonomies', $attachment_taxonomies_raw);
+
+		$attachment_taxonomies = array();
+
+		foreach($attachment_taxonomies_raw as $attachment_taxonomy) {
+			if($attachment_taxonomy->show_ui) {
+				$attachment_taxonomies[] = $attachment_taxonomy;
+			}
+		}
 
 		Property::$taxonomies = $attachment_taxonomies;
 
