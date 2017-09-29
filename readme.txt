@@ -3,8 +3,8 @@ Contributors: faktorvier
 Donate link: https://faktorvier.ch/
 Tags: media, attachments, library, filter, bulk action, categories, tags, taxonomies, custom taxonomies, attachment, category, tag, taxonomy, custom taxonomy
 Requires at least: 4.5.0
-Tested up to: 4.8
-Stable tag: 1.0.1
+Tested up to: 4.8.2
+Stable tag: 1.0.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,9 @@ Yes, absolutely!
 5. Filter by taxonomies in media insert overlay
 
 == Changelog ==
+
+= 1.0.2 =
+* Show only taxonomies with show_ui true
 
 = 1.0.1 =
 * Version upgrade for correct repository infos
