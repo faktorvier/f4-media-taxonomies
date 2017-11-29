@@ -6,6 +6,11 @@
 	// Overlay and grid filters
 	if(typeof wp !== 'undefined' && typeof wp.media !== 'undefined') {
 		var media = wp.media;
+
+		if(typeof media.view.AttachmentFilters === 'undefined') {
+			return;
+		}
+
 		var attachmentsBrowser = media.view.AttachmentsBrowser;
 
 		var attachmentFilter = media.view.AttachmentFilters.extend({
