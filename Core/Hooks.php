@@ -26,6 +26,7 @@ class Hooks {
 		add_action('F4/MT/Core/set_constants', __NAMESPACE__ . '\\Hooks::set_default_constants', 98);
 
 		add_action('admin_head', __NAMESPACE__ . '\\Hooks::add_custom_js');
+		add_action('customize_controls_print_scripts', __NAMESPACE__ . '\\Hooks::add_custom_js');
 		add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\Hooks::admin_enqueue_scripts', 60);
 		add_action('restrict_manage_posts', __NAMESPACE__ . '\\Hooks::add_media_list_filter');
 		add_action('load-upload.php',  __NAMESPACE__ . '\\Hooks::run_bulk_action');
@@ -173,7 +174,7 @@ class Hooks {
 			wp_enqueue_script(
 				'f4-media-taxonomies-filter',
 				F4_MT_URL . 'Core/Assets/js/filter.js',
-				array(),
+				array('media-views'),
 				false,
 				true
 			);
