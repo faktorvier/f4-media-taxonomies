@@ -30,8 +30,11 @@ class Helpers {
 		$args['parent'] = $args['child_of'] = $parent;
 
 		$terms = get_terms($taxonomy, $args);
+		if (is_wp_error($terms)) {
+			return $terms_all;
+		}
 
-		foreach($terms as $term) {
+		foreach((array) $terms as $term) {
 			$term->level = $level;
 			$term->parents = $parents;
 

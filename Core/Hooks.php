@@ -261,15 +261,14 @@ class Hooks {
 		$media_ids = array_map('intval', $_REQUEST['media']);
 		$media_term_id = (int)substr($_REQUEST['action'], strlen(F4_MT_BULK_ACTION_PREFIX));
 		$media_term = get_term($media_term_id);
+		if(!is_object($media_term) || !is_a($media_term, 'WP_Term')) {
+			return;
+		}
 		$backlink = remove_query_arg(array('action', 'action2', 'media', '_ajax_nonce', 'filter_action', 'toggle-taxonomy'));
 		$backlink = add_query_arg('toggle-taxonomy', $media_term->taxonomy, $backlink);
 
 		foreach($media_ids as $media_id) {
 			$media_has_term = has_term($media_term_id, $media_term->taxonomy, $media_id);
-
-			if(is_wp_error($media_has_term)) {
-				continue;
-			}
 
 			if($media_has_term) {
 				wp_remove_object_terms($media_id, $media_term_id, $media_term->taxonomy);
@@ -304,7 +303,7 @@ class Hooks {
 	 * @access public
 	 * @static
 	 * @param array $fields An array with all fields to edit
-	 * @param object $post An object for the current post
+	 * @param \WP_Post $post An object for the current post
 	 * @return array $fields An array with all fields to edit
 	 */
 	public static function attachment_fields_to_edit($fields, $post) {
