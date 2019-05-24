@@ -331,7 +331,7 @@ class Hooks {
 				/>
 
 				<script type="script/javascript">
-					if(typeof f4MediaTaxonomySelectize !== "undefined") {
+					if(typeof f4MediaTaxonomySelectize !== "undefined" && typeof f4MediaTaxonomy !== "undefined") {
 						f4MediaTaxonomySelectize(\'#attachments-' . $post->ID .'-' . $media_taxonomy->name . '\', f4MediaTaxonomy.taxonomies[\'' . $media_taxonomy->name .'\']);
 					}
 				</script>
