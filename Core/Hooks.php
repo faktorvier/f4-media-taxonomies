@@ -33,6 +33,10 @@ class Hooks {
 		add_action('admin_notices',  __NAMESPACE__ . '\\Hooks::show_bulk_action_notice');
 		add_filter('attachment_fields_to_edit', __NAMESPACE__ . '\\Hooks::attachment_fields_to_edit', 1, 2);
 		add_action('wp_ajax_f4-media-taxonomies-add-term', __NAMESPACE__ . '\\Hooks::ajax_add_term');
+
+		add_action('elementor/editor/after_enqueue_scripts', __NAMESPACE__ . '\\Hooks::load_properties', 50);
+		add_action('elementor/editor/after_enqueue_scripts', __NAMESPACE__ . '\\Hooks::add_custom_js', 55);
+		add_action('elementor/editor/after_enqueue_scripts', __NAMESPACE__ . '\\Hooks::admin_enqueue_scripts', 60);
 	}
 
 	/**
@@ -327,7 +331,9 @@ class Hooks {
 				/>
 
 				<script type="script/javascript">
-					f4MediaTaxonomySelectize(\'#attachments-' . $post->ID .'-' . $media_taxonomy->name . '\', f4MediaTaxonomy.taxonomies[\'' . $media_taxonomy->name .'\']);
+					if(typeof f4MediaTaxonomySelectize !== "undefined") {
+						f4MediaTaxonomySelectize(\'#attachments-' . $post->ID .'-' . $media_taxonomy->name . '\', f4MediaTaxonomy.taxonomies[\'' . $media_taxonomy->name .'\']);
+					}
 				</script>
 			';
 
