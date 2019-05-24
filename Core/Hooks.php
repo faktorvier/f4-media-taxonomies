@@ -377,5 +377,3 @@ class Hooks {
 		die();
 	}
 }
-
-?>

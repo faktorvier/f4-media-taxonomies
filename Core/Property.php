@@ -16,5 +16,3 @@ class Property {
 	public static $has_filter = false;
 	public static $has_assignment = false;
 }
-
-?>

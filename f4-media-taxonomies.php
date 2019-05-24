@@ -58,5 +58,3 @@ spl_autoload_register(function($class) {
 
 // Init modules
 F4\MT\Core\Hooks::init();
-
-?>
