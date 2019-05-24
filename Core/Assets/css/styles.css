@@ -44,3 +44,11 @@
 .selectize-dropdown-content .parent-label {
 	color: #BBBBBB;
 }
+
+.selectize-dropdown {
+	z-index: 1000000;
+}
+
+.upload-php .selectize-dropdown {
+	margin-top: -33px;
+}

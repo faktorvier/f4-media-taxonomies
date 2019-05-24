@@ -18,6 +18,7 @@ var f4MediaTaxonomySelectize = function(id, taxonomy) {
 		plugins: ['remove_button'],
 		options: options,
 		placeholder: taxonomy.labels.search,
+		dropdownParent: 'body',
 		preload: 'focus',
 		create: function(input, callback) {
 			jQuery.ajax({
