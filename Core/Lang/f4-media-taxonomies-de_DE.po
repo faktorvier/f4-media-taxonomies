@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: F4 Media Taxonomies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-06 13:07+0000\n"
-"PO-Revision-Date: 2017-04-06 13:13+0000\n"
+"POT-Creation-Date: 2017-04-10 16:41+0000\n"
+"PO-Revision-Date: 2017-04-10 16:41+0000\n"
 "Last-Translator: Admin <dev@faktorvier.ch>\n"
 "Language-Team: German\n"
 "Language: de-DE\n"
@@ -13,19 +13,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco - https://localise.biz/"
 
+#: Core/Hooks.php:194
+msgid "Assign %taxonomy%"
+msgstr "%taxonomy% zuweisen"
+
+#. Description of the plugin
+msgid ""
+"Add filters and bulk actions for attachment categories, tags and custom "
+"taxonomies."
+msgstr ""
+"Fügt Filter und Bulk-Aktionen für Medien-Kategorien- tags und eigene "
+"Taxonomies hinzu."
+
+#. URI of the plugin
+msgid "https://github.com/faktorvier/f4-media-taxonomies"
+msgstr "https://github.com/faktorvier/f4-media-taxonomies"
+
+#: Core/Hooks.php:341
+msgid "Attachment(s) updated."
+msgstr "Mediendatei(en) aktualisiert."
+
 #. Name of the plugin
 msgid "F4 Media Taxonomies"
 msgstr "F4 Media Taxonomies"
 
-#. Description of the plugin
-msgid "Add filters and bulk actions for attachments categories and taxonomies."
-msgstr "Fügt Filter und Bulk Aktionen für Medien-Kategorien und Taxonomies."
+#. Author of the plugin
+msgid "FAKTOR VIER"
+msgstr "FAKTOR VIER"
 
 #. URI of the plugin
 #. Author URI of the plugin
 msgid "https://faktorvier.ch"
 msgstr "https://faktorvier.ch"
-
-#. Author of the plugin
-msgid "FAKTOR VIER"
-msgstr "FAKTOR VIER"
