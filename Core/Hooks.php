@@ -144,7 +144,10 @@ class Hooks {
 		foreach(Property::$taxonomies as $media_taxonomy) {
 			$media_taxonomy_data['taxonomies'][$media_taxonomy->name] = array(
 				'slug' => $media_taxonomy->name,
-				'terms' => Helpers::get_terms_hierarchical($media_taxonomy->name, array('hide_empty' => false)),
+				'terms' => Helpers::get_terms_hierarchical(array(
+					'taxonomy' => $media_taxonomy->name,
+					'hide_empty' => false
+				)),
 				'query_var' => $media_taxonomy->query_var,
 				'labels' => array(
 					'all_items' => $media_taxonomy->labels->all_items,
@@ -312,7 +315,11 @@ class Hooks {
 	 */
 	public static function attachment_fields_to_edit($fields, $post) {
 		foreach(Property::$taxonomies as $media_taxonomy) {
-			$terms = Helpers::get_terms_hierarchical($media_taxonomy->name, array('hide_empty' => false));
+			$terms = Helpers::get_terms_hierarchical(array(
+				'taxonomy' => $media_taxonomy->name,
+				'hide_empty' => false
+			));
+
 			$terms_slugs = array();
 
 			foreach($terms as $term) {
@@ -370,7 +377,10 @@ class Hooks {
 		if(!is_wp_error($new_term_obj)) {
 			wp_send_json(array(
 				'new_term' => $new_term_obj,
-				'all_terms' => Helpers::get_terms_hierarchical($_POST['taxonomy'], array('hide_empty' => false))
+				'all_terms' => Helpers::get_terms_hierarchical(array(
+					'taxonomy' => $_POST['taxonomy'],
+					'hide_empty' => false
+				))
 			));
 		}
 
