@@ -1,6 +1,6 @@
 === F4 Media Taxonomies ===
 Contributors: faktorvier
-Donate link: https://faktorvier.ch/
+Donate link: https://www.faktorvier.ch/donate/
 Tags: media, attachments, library, filter, bulk action, categories, tags, taxonomies, custom taxonomies, attachment, category, tag, taxonomy, custom taxonomy
 Requires at least: 4.5.0
 Tested up to: 5.2
