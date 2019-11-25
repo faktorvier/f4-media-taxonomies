@@ -5,15 +5,15 @@
 
 	setTimeout(function() {
 		// Bulk actions
-		var $bulk = $('[name="action"], [name="action2"]');
+		var $bulk = jQuery('[name="action"], [name="action2"]');
 
 		if($bulk.length) {
 			for(var mediaTaxonomyName in f4MediaTaxonomy.taxonomies) {
 				var mediaTaxonomy = f4MediaTaxonomy.taxonomies[mediaTaxonomyName];
-				var $taxonomy = $('<optgroup label="' + mediaTaxonomy.labels.bulk_title + '"></optgroup');
+				var $taxonomy = jQuery('<optgroup label="' + mediaTaxonomy.labels.bulk_title + '"></optgroup');
 
 				mediaTaxonomy.terms.forEach(function(mediaTerm) {
-					var $term = $($term);
+					var $term = jQuery($term);
 					var indent = Array(mediaTerm.level).join('&nbsp;&nbsp;&nbsp;');
 
 					$taxonomy.append('<option value="' + f4MediaTaxonomy.bulk_action_prefix + mediaTerm.term_id + '">' + indent + mediaTerm.name + '</option>');
