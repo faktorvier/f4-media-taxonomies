@@ -1,19 +1,20 @@
 /* MEDIA FILTERS */
-.attachments-browser .media-toolbar {
+.media-modal-content .attachments-browser .media-toolbar {
 	display: flex;
 }
 
-.attachments-browser .media-toolbar .media-toolbar-secondary,
-.attachments-browser .media-toolbar .media-toolbar-primary {
+.media-modal-content .attachments-browser .media-toolbar .media-toolbar-secondary,
+.media-modal-content .attachments-browser .media-toolbar .media-toolbar-primary {
 	max-width: none;
 }
 
-.attachments-browser .media-toolbar .media-toolbar-secondary {
+.media-modal-content .attachments-browser .media-toolbar .media-toolbar-secondary {
 	display: flex;
 	flex: 1;
 	align-items: flex-start;
 }
 
+body.block-editor-page .media-modal-content .media-frame select.attachment-filters,
 .media-modal-content .media-frame .media-toolbar select.attachment-filters {
 	flex: 1;
 	width: 50%;
