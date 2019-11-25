@@ -113,7 +113,7 @@ Yes, absolutely!
 == Changelog ==
 
 = 1.0.7 =
-* WordPress 5.3 compability fixes
+* WordPress 5.3 compatibility fixes
 * Optimized dropdown width in media modal
 
 = 1.0.6 =
