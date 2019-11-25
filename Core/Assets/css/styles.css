@@ -40,6 +40,59 @@
 	margin-bottom: 5px;
 }
 
+.selectize-input {
+	box-shadow: 0 0 0 transparent;
+	border-radius: 4px;
+	border: 1px solid #7e8993;
+	background-color: #fff;
+	color: #32373c;
+}
+
+.selectize-input.input-active {
+	border-color: #007cba;
+    box-shadow: 0 0 0 1px #007cba;
+}
+
+.admin-color-light .selectize-input.input-active {
+	border-color: #04a4cc;
+    box-shadow: 0 0 0 1px #04a4cc;
+}
+
+.admin-color-blue .selectize-input.input-active {
+	border-color: #096484;
+    box-shadow: 0 0 0 1px #096484;
+}
+
+.admin-color-coffee .selectize-input.input-active {
+	border-color: #c7a589;
+    box-shadow: 0 0 0 1px #c7a589;
+}
+
+.admin-color-ectoplasm .selectize-input.input-active {
+	border-color: #a3b745;
+    box-shadow: 0 0 0 1px #a3b745;
+}
+
+.admin-color-ectoplasm .selectize-input.input-active {
+	border-color: #a3b745;
+    box-shadow: 0 0 0 1px #a3b745;
+}
+
+.admin-color-midnight .selectize-input.input-active {
+	border-color: #e14d43;
+    box-shadow: 0 0 0 1px #e14d43;
+}
+
+.admin-color-ocean .selectize-input.input-active {
+	border-color: #9ebaa0;
+    box-shadow: 0 0 0 1px #9ebaa0;
+}
+
+.admin-color-sunrise .selectize-input.input-active {
+	border-color: #dd823b;
+    box-shadow: 0 0 0 1px #dd823b;
+}
+
 .selectize-input .parent-label,
 .selectize-dropdown-content .parent-label {
 	color: #BBBBBB;
@@ -52,3 +105,4 @@
 .upload-php .selectize-dropdown {
 	margin-top: -33px;
 }
+
