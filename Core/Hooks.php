@@ -87,7 +87,7 @@ class Hooks {
 		global $pagenow, $mode, $wp_scripts;
 
 		Property::$has_bulk_action = $pagenow === 'upload.php' && $mode !== 'grid';
-		Property::$has_filter = wp_script_is('media-views') || wp_script_is('acf-input') || apply_filters('F4/MT/Core/has_filter', false) || ($pagenow === 'upload.php' && $mode === 'grid');
+		Property::$has_filter = wp_script_is('media-views') || wp_script_is('acf-input') || apply_filters('F4/MT/Core/has_filter', false) || ($pagenow === 'upload.php' && $mode === 'grid') || apply_filters('cmb2_enqueue_js', true);
 		Property::$has_assignment = Property::$has_filter;
 
 		do_action('F4/MT/Core/load_properties');
