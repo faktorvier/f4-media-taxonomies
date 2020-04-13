@@ -259,15 +259,20 @@ class Hooks {
 	 * @static
 	 */
 	public static function run_bulk_action() {
-		if(!isset($_REQUEST['action']) || strpos($_REQUEST['action'], F4_MT_BULK_ACTION_PREFIX) === false || !isset($_REQUEST['media'])) {
+		$is_bulk_action = isset($_REQUEST['action']) && strpos($_REQUEST['action'], F4_MT_BULK_ACTION_PREFIX) !== false;
+		$is_bulk_action2 = isset($_REQUEST['action2']) && strpos($_REQUEST['action2'], F4_MT_BULK_ACTION_PREFIX) !== false;
+
+		if(!isset($_REQUEST['media']) || (!$is_bulk_action && !$is_bulk_action2)) {
 			return;
 		}
 
 		check_admin_referer('bulk-media');
 
+		$media_action = $is_bulk_action2 ? $_REQUEST['action2'] : $_REQUEST['action'];
 		$media_ids = array_map('intval', $_REQUEST['media']);
-		$media_term_id = (int)substr($_REQUEST['action'], strlen(F4_MT_BULK_ACTION_PREFIX));
+		$media_term_id = (int)substr($media_action, strlen(F4_MT_BULK_ACTION_PREFIX));
 		$media_term = get_term($media_term_id);
+
 		if(!is_object($media_term) || !is_a($media_term, 'WP_Term')) {
 			return;
 		}
