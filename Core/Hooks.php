@@ -117,7 +117,7 @@ class Hooks {
 	 */
 	public static function load_textdomain() {
 		$locale = apply_filters('plugin_locale', get_locale(), F4_MT_TD);
-		load_plugin_textdomain('f4-media-taxonomies', false, plugin_basename(F4_MT_PATH . 'Core' . DS . 'Lang') . DS);
+		load_plugin_textdomain('f4-media-taxonomies', false, plugin_basename(F4_MT_PATH . 'languages') . DS);
 	}
 
 	/**
