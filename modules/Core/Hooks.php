@@ -116,7 +116,6 @@ class Hooks {
 	 * @static
 	 */
 	public static function load_textdomain() {
-		$locale = apply_filters('plugin_locale', get_locale(), F4_MT_TD);
 		load_plugin_textdomain('f4-media-taxonomies', false, plugin_basename(F4_MT_PATH . 'languages') . DS);
 	}
 
@@ -180,7 +179,7 @@ class Hooks {
 		if(Property::$has_filter) {
 			wp_enqueue_script(
 				'f4-media-taxonomies-filter',
-				F4_MT_URL . 'Core/Assets/js/filter.js',
+				F4_MT_URL . 'assets/js/filter.js',
 				array('media-views'),
 				false,
 				true
@@ -191,7 +190,7 @@ class Hooks {
 		if(Property::$has_bulk_action) {
 			wp_enqueue_script(
 				'f4-media-taxonomies-bulk',
-				F4_MT_URL . 'Core/Assets/js/bulk.js',
+				F4_MT_URL . 'assets/js/bulk.js',
 				array(),
 				false,
 				true
@@ -205,7 +204,7 @@ class Hooks {
 
 			wp_enqueue_script(
 				'f4-media-taxonomies-assignment',
-				F4_MT_URL . 'Core/Assets/js/assignment.js',
+				F4_MT_URL . 'assets/js/assignment.js',
 				array(),
 				false,
 				true
@@ -216,7 +215,7 @@ class Hooks {
 		if(Property::$has_bulk_action || Property::$has_filter || Property::$has_assignment) {
 			wp_enqueue_style(
 				'f4-media-taxonomies-styles',
-				F4_MT_URL . 'Core/Assets/css/styles.css'
+				F4_MT_URL . 'assets/css/styles.css'
 			);
 		}
 	}
