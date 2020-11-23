@@ -1,3 +1,5 @@
+var f4MediaTaxonomySelectizeFocus = '';
+
 var f4MediaTaxonomySelectize = function(id, taxonomy) {
 	var $selectize = jQuery(id);
 	var options = [];
@@ -71,6 +73,15 @@ var f4MediaTaxonomySelectize = function(id, taxonomy) {
 				return '<div data-sort-string="' + escape(sort_string) + '">' + label + '</div>';
 			}
 		},
+		onFocus: function() {
+			f4MediaTaxonomySelectizeFocus = id;
+		},
+		onBlur: function() {
+			f4MediaTaxonomySelectizeFocus = '';
+		},
+		onChange: function(value) {
+			this.$dropdown.remove();
+		},
 		//closeAfterSelect: true,
 		onItemAdd: function(value, $element) {
 			$element.parent().children(':not(input)').sort(function(a, b) {
@@ -80,4 +91,8 @@ var f4MediaTaxonomySelectize = function(id, taxonomy) {
 			}).removeClass('active').insertBefore($element.parent().children('input'));
 		}
 	});
+
+	if(f4MediaTaxonomySelectizeFocus === id) {
+		$selectize[0].selectize.focus();
+	}
 };
