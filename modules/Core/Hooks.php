@@ -160,7 +160,7 @@ class Hooks {
 		}
 
 		// Output media taxonomies as js code
-		echo '<script type="text/javascript">
+		echo '<script>
 			var f4MediaTaxonomy = ' . json_encode($media_taxonomy_data) . '
 		</script>';
 	}
@@ -340,7 +340,7 @@ class Hooks {
 					value="' . implode(',', $terms_slugs) . '"
 				/>
 
-				<script type="script/javascript">
+				<script>
 					if(typeof f4MediaTaxonomySelectize !== "undefined" && typeof f4MediaTaxonomy !== "undefined") {
 						f4MediaTaxonomySelectize(\'#attachments-' . $post->ID .'-' . $media_taxonomy->name . '\', f4MediaTaxonomy.taxonomies[\'' . $media_taxonomy->name .'\']);
 					}
