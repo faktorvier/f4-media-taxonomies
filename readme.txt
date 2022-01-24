@@ -3,8 +3,8 @@ Contributors: faktorvier
 Donate link: https://www.faktorvier.ch/donate/
 Tags: media, attachments, library, filter, bulk action, categories, tags, taxonomies, custom taxonomies, attachment, category, tag, taxonomy, custom taxonomy
 Requires at least: 4.5.0
-Tested up to: 5.8
-Stable tag: 1.0.15
+Tested up to: 5.9
+Stable tag: 1.0.16
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,7 +112,11 @@ Yes, absolutely!
 
 == Changelog ==
 
-= 1.0.18 =
+= 1.0.16 =
+* Correctly update post term count (thanks to @nonverbla for the hint)
+* Support WordPress 5.9
+
+= 1.0.15 =
 * Support WordPress 5.8
 
 = 1.0.14 =
