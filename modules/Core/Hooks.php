@@ -32,6 +32,7 @@ class Hooks {
 		add_action('load-upload.php',  __NAMESPACE__ . '\\Hooks::run_bulk_action');
 		add_action('admin_notices',  __NAMESPACE__ . '\\Hooks::show_bulk_action_notice');
 		add_filter('attachment_fields_to_edit', __NAMESPACE__ . '\\Hooks::attachment_fields_to_edit', 1, 2);
+		add_filter('update_post_term_count_statuses', __NAMESPACE__ . '\\Hooks::update_post_term_count_statuses', 10, 2);
 		add_action('wp_ajax_f4-media-taxonomies-add-term', __NAMESPACE__ . '\\Hooks::ajax_add_term');
 
 		add_action('elementor/editor/after_enqueue_scripts', __NAMESPACE__ . '\\Hooks::load_properties', 50);
@@ -356,6 +357,24 @@ class Hooks {
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * Add inherit post status for attachment taxonomy term count
+	 *
+	 * @since 1.0.16
+	 * @access public
+	 * @static
+	 * @param array $statuses List of post statuses to include in the count
+	 * @param \WP_Taxonomy $taxonomy The current taxonomy object
+	 * @return array $statuses List of post statuses to include in the count
+	 */
+	public static function update_post_term_count_statuses($statuses, $taxonomy) {
+		if(in_array('attachment', $taxonomy->object_type)) {
+			$statuses[] = 'inherit';
+		}
+
+		return $statuses;
 	}
 
 	/**
