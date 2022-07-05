@@ -34,6 +34,7 @@ class Hooks {
 		add_filter('attachment_fields_to_edit', __NAMESPACE__ . '\\Hooks::attachment_fields_to_edit', 1, 2);
 		add_filter('update_post_term_count_statuses', __NAMESPACE__ . '\\Hooks::update_post_term_count_statuses', 10, 2);
 		add_action('wp_ajax_f4-media-taxonomies-add-term', __NAMESPACE__ . '\\Hooks::ajax_add_term');
+		add_action('wp_ajax_f4-media-taxonomies-search-terms', __NAMESPACE__ . '\\Hooks::ajax_search_terms');
 
 		add_action('elementor/editor/after_enqueue_scripts', __NAMESPACE__ . '\\Hooks::load_properties', 50);
 		add_action('elementor/editor/after_enqueue_scripts', __NAMESPACE__ . '\\Hooks::add_custom_js', 55);
@@ -144,10 +145,11 @@ class Hooks {
 		foreach(Property::$taxonomies as $media_taxonomy) {
 			$media_taxonomy_data['taxonomies'][$media_taxonomy->name] = array(
 				'slug' => $media_taxonomy->name,
-				'terms' => Helpers::get_terms_hierarchical(array(
-					'taxonomy' => $media_taxonomy->name,
-					'hide_empty' => false
-				)),
+				'terms' => [],
+				// 'terms' => Helpers::get_terms_hierarchical(array(
+				// 	'taxonomy' => $media_taxonomy->name,
+				// 	'hide_empty' => false
+				// )),
 				'query_var' => $media_taxonomy->query_var,
 				'labels' => array(
 					'all_items' => $media_taxonomy->labels->all_items,
@@ -155,7 +157,8 @@ class Hooks {
 					'plural' => $media_taxonomy->labels->name,
 					'bulk_title' => str_replace('%taxonomy%', $media_taxonomy->labels->name, __('Assign %taxonomy%', 'f4-media-taxonomies')),
 					'search' => $media_taxonomy->labels->search_items,
-					'add' => $media_taxonomy->labels->add_new_item
+					'add' => $media_taxonomy->labels->add_new_item,
+					'search_hint' => str_replace('%chars%', '1', __('Please enter %chars% or more characters', 'f4-media-taxonomies'))
 				)
 			);
 		}
@@ -200,8 +203,8 @@ class Hooks {
 
 		// Eneuque selecrize
 		if(Property::$has_assignment) {
-			wp_enqueue_script('selectize', 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.js', array(), '0.12.4');
-			wp_enqueue_style('selectize', 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.min.css', array(), '0.12.4');
+			wp_enqueue_script('selectize', 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.5/js/standalone/selectize.js', array(), '0.13.5');
+			wp_enqueue_style('selectize', 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.5/css/selectize.min.css', array(), '0.13.5');
 
 			wp_enqueue_script(
 				'f4-media-taxonomies-assignment',
@@ -325,20 +328,30 @@ class Hooks {
 				'hide_empty' => false
 			));
 
-			$terms_slugs = array();
+			$terms_options = array();
 
 			foreach($terms as $term) {
 				if(has_term($term->term_id, $media_taxonomy->name, $post->ID)) {
-					$terms_slugs[] = $term->slug;
+					$terms_options[$term->slug] = [
+						'slug' => $term->slug,
+						'name' => $term->name,
+						'parents' => $term->parents,
+						'sort' => strtolower(!empty($term->parents) ? implode('-', $term->parents) . '-' . $term->name : $term->name)
+					];
 				}
 			}
+
+			uasort($terms_options, function($a, $b) {
+				return strnatcasecmp($a['sort'], $b['sort']);
+			});
 
 			$dropdown = '
 				<input
 					type="text"
 					id="attachments-' . $post->ID .'-' . $media_taxonomy->name . '"
 					name="attachments[' . $post->ID .'][' . $media_taxonomy->name . ']"
-					value="' . implode(',', $terms_slugs) . '"
+					data-selected-items= "' . esc_attr(json_encode($terms_options)) . '"
+					value="' . implode(',', array_keys($terms_options)) . '"
 				/>
 
 				<script>
@@ -385,7 +398,7 @@ class Hooks {
 	 * @static
 	 */
 	public static function ajax_add_term() {
-		$new_term = wp_insert_term($_POST['term_label'], $_POST['taxonomy']);
+		$new_term = wp_insert_term($_REQUEST['term_label'], $_REQUEST['taxonomy']);
 
 		if(is_wp_error($new_term)) {
 			die();
@@ -401,12 +414,40 @@ class Hooks {
 			wp_send_json(array(
 				'new_term' => $new_term_obj,
 				'all_terms' => Helpers::get_terms_hierarchical(array(
-					'taxonomy' => $_POST['taxonomy'],
+					'taxonomy' => $_REQUEST['taxonomy'],
 					'hide_empty' => false
 				))
 			));
 		}
 
 		die();
+	}
+
+	/**
+	 * Search terms
+	 *
+	 * @since 1.1.0
+	 * @access public
+	 * @static
+	 */
+	public static function ajax_search_terms() {
+		$terms_raw = Helpers::get_terms_hierarchical(array(
+			'taxonomy' => $_REQUEST['taxonomy'],
+			'hide_empty' => false
+		));
+
+		$terms = [];
+
+		foreach($terms_raw as $term) {
+			if(strripos($term->name, trim($_REQUEST['query'])) !== false) {
+				$terms[] = [
+					'value' => $term->slug,
+					'text' => $term->name,
+					'parents' => $term->parents
+				];
+			}
+		}
+
+		wp_send_json_success($terms);
 	}
 }

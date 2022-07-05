@@ -1,43 +1,76 @@
 var f4MediaTaxonomySelectizeFocus = '';
 
+Selectize.define('silent_remove', function(options){
+    var self = this;
+
+    // defang the internal search method when remove has been clicked
+    this.on('item_remove', function(){
+        this.plugin_silent_remove_in_remove = true;
+    });
+
+    this.search = (function() {
+        var original = self.search;
+        return function() {
+            if (typeof(this.plugin_silent_remove_in_remove) != "undefined") {
+                // re-enable normal searching
+                delete this.plugin_silent_remove_in_remove;
+                return {
+                        items: {},
+                        query: [],
+                        tokens: []
+                    };
+            }
+            else {
+                return original.apply(this, arguments);
+            }
+        };
+    })();
+});
+
 var f4MediaTaxonomySelectize = function(id, taxonomy) {
 	var $selectize = jQuery(id);
-	var options = [];
-
-	if(typeof taxonomy.terms === 'object') {
-		taxonomy.terms.forEach(function(term) {
-			options.push({
-				value: term.slug,
-				text: term.name,
-				parents: term.parents
-			});
-		});
-	}
 
 	$selectize.closest('tr').addClass('compat-field-selectize');
 
 	$selectize.selectize({
-		plugins: ['remove_button'],
-		options: options,
+		plugins: ['remove_button', 'silent_remove'],
 		placeholder: taxonomy.labels.search,
-		dropdownParent: 'body',
+		dropdownParent: null,
 		preload: 'focus',
+		closeAfterSelect: true,
+		load: function(query, callback) {
+			if(!query.length) {
+				//this.addOption({'text': taxonomy.labels.search_hint, 'value': 'f4-media-searchhint', 'searchhint': true, 'disabled': true});
+				//this.refreshOptions(false);
+				return callback();
+			}
+
+			this.removeOption('f4-media-searchhint');
+			this.refreshOptions(false);
+
+			jQuery.ajax({
+				url: ajaxurl,
+				cache: false,
+				data: {
+					action: 'f4-media-taxonomies-search-terms',
+					taxonomy: taxonomy.slug,
+					query: query
+				},
+				success: function(response) {
+					callback(response.data);
+				}
+			});
+		},
 		create: function(input, callback) {
 			jQuery.ajax({
 				url: ajaxurl,
 				cache: false,
-				async: false,
-				type: 'POST',
 				data: {
 					action: 'f4-media-taxonomies-add-term',
 					taxonomy: taxonomy.slug,
 					term_label: input
 				},
 				success: function(response) {
-					try {
-						f4MediaTaxonomy.taxonomies[taxonomy.slug].terms = response.all_terms;
-					} catch(e) {};
-
 					if(typeof response.new_term !== 'undefined') {
 						callback({
 							value: response.new_term.slug,
@@ -54,15 +87,27 @@ var f4MediaTaxonomySelectize = function(id, taxonomy) {
 				return '<div class="create">' + taxonomy.labels.add + ': <strong>' + escape(data.input) + '</strong></div>';
 			},
 			option: function(data, escape) {
-				var label = (data.parents.length ? '<span class="parent-label">' + escape(data.parents.join(' / ')) + ' /</span> ' : '') + escape(data.text);
+				var label = (typeof data.parents !== 'undefined' && data.parents.length ? '<span class="parent-label">' + escape(data.parents.join(' / ')) + ' /</span> ' : '') + escape(data.text);
 
-				return '<div>' + label + '</div>';
+				if(typeof data.searchhint === 'undefined') {
+					return '<div>' + label + '</div>';
+				} else {
+					return '<div class="searchhint">' + label + '</div>';
+				}
 			},
 			item: function(data, escape) {
 				var isNewTerm = typeof data.parents === 'undefined';
 
 				if(isNewTerm) {
 					data.parents = [];
+
+					let selectedItems = JSON.parse(this.$input.attr('data-selected-items'));
+					let termSlug = data.text;
+
+					if(typeof selectedItems[termSlug] !== 'undefined') {
+						data.text = selectedItems[termSlug].name;
+						data.parents = selectedItems[termSlug].parents || [];
+					}
 				}
 
 				var sortStringArray = data.parents.slice(0);
@@ -74,20 +119,34 @@ var f4MediaTaxonomySelectize = function(id, taxonomy) {
 			}
 		},
 		onFocus: function() {
+			let items = [];
+
+			if(this.currentResults) {
+				items = this.currentResults.items;
+			}
+
+			if(!items.length) {
+				this.addOption({'text': taxonomy.labels.search_hint, 'value': 'f4-media-searchhint', 'searchhint': true, 'disabled': true});
+			}
+
 			f4MediaTaxonomySelectizeFocus = id;
 		},
-		onBlur: function() {
+		onItemRemove: function() {
 			f4MediaTaxonomySelectizeFocus = '';
 		},
-		onChange: function(value) {
-			this.$dropdown.remove();
+		onBlur: function() {
+			this.removeOption('f4-media-searchhint');
+			f4MediaTaxonomySelectizeFocus = '';
 		},
-		//closeAfterSelect: true,
 		onItemAdd: function(value, $element) {
 			$element.parent().children(':not(input)').sort(function(a, b) {
 				var upA = jQuery(a).attr('data-sort-string');
 				var upB = jQuery(b).attr('data-sort-string');
-				return (upA < upB) ? -1 : (upA > upB) ? 1 : 0;
+
+				return upA.localeCompare(upB, undefined, {
+					numeric: true,
+					sensitivity: 'base'
+				});
 			}).removeClass('active').insertBefore($element.parent().children('input'));
 		}
 	});
