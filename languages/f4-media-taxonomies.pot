@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: F4 Media Taxonomies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-08 08:24+0000\n"
+"POT-Creation-Date: 2022-07-05 14:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -15,16 +15,21 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.3.3; wp-5.4.1"
 
-#: modules/Core/Hooks.php:155
-msgid "Assign %taxonomy%"
-msgstr ""
-
-#: modules/Core/Hooks.php:306
-msgid "Attachment(s) updated."
-msgstr ""
-
 #. Description of the plugin
 msgid ""
 "Add filters and bulk actions for attachment categories, tags and custom "
 "taxonomies."
+msgstr ""
+
+#: modules/Core/Hooks.php:158
+msgid "Assign %taxonomy%"
+msgstr ""
+
+#: modules/Core/Hooks.php:310
+msgid "Attachment(s) updated."
+msgstr ""
+
+#: modules/Core/Hooks.php:161
+#, php-format
+msgid "Please enter %chars% or more characters"
 msgstr ""
