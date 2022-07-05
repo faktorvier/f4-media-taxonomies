@@ -136,6 +136,7 @@ var f4MediaTaxonomySelectize = function(id, taxonomy) {
 		},
 		onBlur: function() {
 			this.removeOption('f4-media-searchhint');
+			this.refreshOptions(false);
 			f4MediaTaxonomySelectizeFocus = '';
 		},
 		onItemAdd: function(value, $element) {
