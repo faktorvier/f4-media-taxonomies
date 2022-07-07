@@ -146,10 +146,10 @@ class Hooks {
 			$media_taxonomy_data['taxonomies'][$media_taxonomy->name] = array(
 				'slug' => $media_taxonomy->name,
 				'terms' => [],
-				// 'terms' => Helpers::get_terms_hierarchical(array(
-				// 	'taxonomy' => $media_taxonomy->name,
-				// 	'hide_empty' => false
-				// )),
+				'terms' => Helpers::get_terms_hierarchical(array(
+					'taxonomy' => $media_taxonomy->name,
+					'hide_empty' => false
+				)),
 				'query_var' => $media_taxonomy->query_var,
 				'labels' => array(
 					'all_items' => $media_taxonomy->labels->all_items,
@@ -323,27 +323,31 @@ class Hooks {
 	 */
 	public static function attachment_fields_to_edit($fields, $post) {
 		foreach(Property::$taxonomies as $media_taxonomy) {
-			$terms = Helpers::get_terms_hierarchical(array(
-				'taxonomy' => $media_taxonomy->name,
-				'hide_empty' => false
-			));
+			$terms = get_the_terms($post, $media_taxonomy->name);
 
 			$terms_options = array();
 
-			foreach($terms as $term) {
-				if(has_term($term->term_id, $media_taxonomy->name, $post->ID)) {
+			if(is_array($terms) && !empty($terms)) {
+				foreach($terms as $term) {
+					$term_parent_ids = get_ancestors($term->term_id, $term->taxonomy, 'taxonomy');
+					$term_parents = [];
+
+					foreach($term_parent_ids as $term_parent) {
+						array_unshift($term_parents, get_term($term_parent)->name);
+					}
+
 					$terms_options[$term->slug] = [
 						'slug' => $term->slug,
 						'name' => $term->name,
-						'parents' => $term->parents,
-						'sort' => strtolower(!empty($term->parents) ? implode('-', $term->parents) . '-' . $term->name : $term->name)
+						'parents' => $term_parents,
+						'sort' => strtolower(!empty($term_parents) ? implode('-', $term_parents) . '-' . $term->name : $term->name)
 					];
 				}
-			}
 
-			uasort($terms_options, function($a, $b) {
-				return strnatcasecmp($a['sort'], $b['sort']);
-			});
+				uasort($terms_options, function($a, $b) {
+					return strnatcasecmp($a['sort'], $b['sort']);
+				});
+			}
 
 			$dropdown = '
 				<input
@@ -412,11 +416,7 @@ class Hooks {
 
 		if(!is_wp_error($new_term_obj)) {
 			wp_send_json(array(
-				'new_term' => $new_term_obj,
-				'all_terms' => Helpers::get_terms_hierarchical(array(
-					'taxonomy' => $_REQUEST['taxonomy'],
-					'hide_empty' => false
-				))
+				'new_term' => $new_term_obj
 			));
 		}
 
