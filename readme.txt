@@ -4,7 +4,7 @@ Donate link: https://www.faktorvier.ch/donate/
 Tags: media, attachments, library, filter, bulk action, categories, tags, taxonomies, custom taxonomies, attachment, category, tag, taxonomy, custom taxonomy
 Requires at least: 4.5.0
 Tested up to: 6.0
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Add filters and bulk actions for attachment categories, tags and custom taxonomi
 
 == Description ==
 
-F4 Media Taxonomies provides the ability to filter the media library by categories, tags and/or custom taxonomies.
+[F4 Media Taxonomies](https://www.f4dev.ch) provides the ability to filter the media library by categories, tags and/or custom taxonomies.
 You can use the built-in taxonomies (category or post_tag) or any custom taxonomy.
 
 If a taxonomy is enabled for attachments, you can assign as many of their terms to an attachment as you need.
@@ -111,6 +111,9 @@ Yes, absolutely!
 5. Filter by taxonomies in media insert overlay
 
 == Changelog ==
+
+= 1.1.2 =
+* Update www.f4dev.ch links
 
 = 1.1.1 =
 * Fix bulk action and taxonomy filter dropdowns
