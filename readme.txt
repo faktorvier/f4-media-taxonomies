@@ -23,8 +23,6 @@ Attachments can then be filtered by these terms. The filters are available in th
 
 Different than other similar plugins, **F4 Media Taxonomies is 100% free!**
 
-asdlfjhalkösdjf
-
 = Usage =
 
 See FAQ for a guide how to enable categories, tags and custom taxonomies.
