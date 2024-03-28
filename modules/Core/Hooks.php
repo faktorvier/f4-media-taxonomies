@@ -145,7 +145,6 @@ class Hooks {
 		foreach(Property::$taxonomies as $media_taxonomy) {
 			$media_taxonomy_data['taxonomies'][$media_taxonomy->name] = array(
 				'slug' => $media_taxonomy->name,
-				'terms' => [],
 				'terms' => Helpers::get_terms_hierarchical(array(
 					'taxonomy' => $media_taxonomy->name,
 					'hide_empty' => false
