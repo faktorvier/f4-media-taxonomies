@@ -89,7 +89,7 @@ class Hooks {
 		global $pagenow, $mode, $wp_scripts;
 
 		Property::$has_bulk_action = $pagenow === 'upload.php' && $mode !== 'grid';
-		Property::$has_filter = wp_script_is('media-views') || wp_script_is('acf-input') || apply_filters('F4/MT/Core/has_filter', false) || ($pagenow === 'upload.php' && $mode === 'grid') || apply_filters('cmb2_enqueue_js', true);
+		Property::$has_filter = wp_script_is('media-views') || wp_script_is('acf-input') || apply_filters('F4/MT/Core/has_filter', false) || ($pagenow === 'upload.php' && $mode === 'grid') || apply_filters('cmb2_enqueue_js', class_exists('CMB2'));
 		Property::$has_assignment = Property::$has_filter;
 
 		do_action('F4/MT/Core/load_properties');
@@ -202,8 +202,8 @@ class Hooks {
 
 		// Eneuque selecrize
 		if(Property::$has_assignment) {
-			wp_enqueue_script('selectize', 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.5/js/standalone/selectize.js', array(), '0.13.5');
-			wp_enqueue_style('selectize', 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.5/css/selectize.min.css', array(), '0.13.5');
+			wp_enqueue_script('selectize', 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.js', array(), '0.15.2');
+			wp_enqueue_style('selectize', 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.min.css', array(), '0.15.2');
 
 			wp_enqueue_script(
 				'f4-media-taxonomies-assignment',
