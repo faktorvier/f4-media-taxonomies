@@ -53,6 +53,7 @@ var f4MediaTaxonomySelectize = function(id, taxonomy) {
 				cache: false,
 				data: {
 					action: 'f4-media-taxonomies-search-terms',
+					security: f4MediaTaxonomy.ajax_nonce,
 					taxonomy: taxonomy.slug,
 					query: query
 				},
@@ -67,6 +68,7 @@ var f4MediaTaxonomySelectize = function(id, taxonomy) {
 				cache: false,
 				data: {
 					action: 'f4-media-taxonomies-add-term',
+					security: f4MediaTaxonomy.ajax_nonce,
 					taxonomy: taxonomy.slug,
 					term_label: input
 				},

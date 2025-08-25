@@ -139,7 +139,8 @@ class Hooks {
 		// Get available media taxonomies
 		$media_taxonomy_data = array(
 			'taxonomies' => array(),
-			'bulk_action_prefix' => F4_MT_BULK_ACTION_PREFIX
+			'bulk_action_prefix' => F4_MT_BULK_ACTION_PREFIX,
+			'ajax_nonce' => wp_create_nonce('f4-mt-ajax')
 		);
 
 		foreach(Property::$taxonomies as $media_taxonomy) {
@@ -401,6 +402,10 @@ class Hooks {
 	 * @static
 	 */
 	public static function ajax_add_term() {
+		if (!current_user_can('manage_categories') || !check_ajax_referer('f4-mt-ajax', 'security')) {
+			exit;
+		}
+
 		$new_term = wp_insert_term($_REQUEST['term_label'], $_REQUEST['taxonomy']);
 
 		if(is_wp_error($new_term)) {
@@ -430,6 +435,10 @@ class Hooks {
 	 * @static
 	 */
 	public static function ajax_search_terms() {
+		if (!current_user_can('edit_posts') || !check_ajax_referer('f4-mt-ajax', 'security')) {
+			exit;
+		}
+
 		$terms_raw = Helpers::get_terms_hierarchical(array(
 			'taxonomy' => $_REQUEST['taxonomy'],
 			'hide_empty' => false
