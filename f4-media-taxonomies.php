@@ -4,7 +4,7 @@
 Plugin Name: F4 Media Taxonomies
 Plugin URI: https://github.com/faktorvier/f4-media-taxonomies
 Description: Add filters and bulk actions for attachment categories, tags and custom taxonomies.
-Version: 1.1.4
+Version: 1.1.5
 Author: FAKTOR VIER
 Author URI: https://www.f4dev.ch
 License: GPLv2
@@ -28,7 +28,7 @@ along with F4 Media Taxonomies. If not, see https://www.gnu.org/licenses/gpl-2.0
 
 if(!defined('ABSPATH')) exit;
 
-define('F4_MT_VERSION', '1.1.4');
+define('F4_MT_VERSION', '1.1.5');
 
 define('F4_MT_SLUG', 'f4-media-taxonomies');
 define('F4_MT_MAIN_FILE', __FILE__);

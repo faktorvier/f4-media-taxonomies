@@ -3,8 +3,8 @@ Contributors: faktorvier
 Donate link: https://www.faktorvier.ch/donate/
 Tags: media, attachments, library, filter, bulk action, categories, tags, taxonomies, custom taxonomies, attachment, category, tag, taxonomy, custom taxonomy
 Requires at least: 4.5.0
-Tested up to: 6.5
-Stable tag: 1.1.4
+Tested up to: 6.8
+Stable tag: 1.1.5
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,11 @@ Yes, absolutely!
 5. Filter by taxonomies in media insert overlay
 
 == Changelog ==
+
+= 1.1.5 =
+* Fix broken access control vulnerability
+* Update selectize.js to version 0.15.2 and add condition to admin upload for CMB2
+* Support WordPress 6.8
 
 = 1.1.4 =
 * Remove double array key
