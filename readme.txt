@@ -3,8 +3,8 @@ Contributors: faktorvier
 Donate link: https://www.faktorvier.ch/donate/
 Tags: media, attachments, library, filter, bulk action, categories, tags, taxonomies, custom taxonomies, attachment, category, tag, taxonomy, custom taxonomy
 Requires at least: 4.5.0
-Tested up to: 6.8
-Stable tag: 1.1.5
+Tested up to: 6.9
+Stable tag: 1.1.6
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,9 @@ Yes, absolutely!
 5. Filter by taxonomies in media insert overlay
 
 == Changelog ==
+
+= 1.1.6 =
+* Support WordPress 6.9
 
 = 1.1.5 =
 * Fix broken access control vulnerability
